@@ -20,7 +20,7 @@ else
   REBAR_OPTIONS="-C $REBAR_CONFIG"
 fi
 
-REBAR_CMD=${REBAR_CMD:="./rebar $REBAR_OPTIONS"}
+REBAR_CMD=${REBAR_CMD:="./rebar3 $REBAR_OPTIONS"}
 MIX_CMD=${MIX_CMD:="mix"}
 RELX_CMD=${RELX_CMD:="./relx"}
 
@@ -116,7 +116,7 @@ erlang_get_and_update_deps() {
     cd $DELIVER_TO
     if [ \"$BUILD_CMD\" = \"rebar\" ]; then
       echo \"using rebar to fetch and update deps\"
-      $REBAR_CMD update-deps get-deps
+      $REBAR_CMD get-deps
     elif [ \"$BUILD_CMD\" = \"mix\" ]; then
       echo \"using mix to fetch and update deps\"
       if [ ! -f ~/.mix/rebar ] || [ ! -f ~/.mix/rebar3 ]; then
