@@ -238,7 +238,7 @@ erlang_generate_release() {
     cd $DELIVER_TO
     if [ \"$RELEASE_CMD\" = \"rebar\" ]; then
       echo \"using rebar to generate release\"
-      $REBAR_CMD $RELEASE_CMD_OPTIONS -f generate
+      $REBAR_CMD $RELEASE_CMD_OPTIONS release
     elif [ \"$RELEASE_CMD\" = \"relx\" ]; then
       echo \"using relx to generate release\"
       $RELX_CMD release
