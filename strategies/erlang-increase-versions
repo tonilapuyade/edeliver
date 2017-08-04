@@ -50,6 +50,8 @@ run() {
   for _rebarFile in $(find  . -name rebar.config); do
     local _appVersion=$(grep -Eo "\\s*\\{release,[[:space:]]*\\{fix_poller\\s*,\\s*\"[^\"]+\"\\s*\\}" rebar.config | grep -Eo "\"[^\"]+\"")
     if [[ -n "$_appVersion" ]]; then
+      _appVersion=${_appVersion%\"*}
+      _appVersion=${_appVersion#*\"}
       _newVersion=$(increase_version ${_appVersion} $INCREASE_VERSION_TYPE)
       _newReleaseVersion=$_newVersion
       echo "${_rebarFile}: ${bldylw}${_appVersion} -> ${_newVersion}${txtrst}"
