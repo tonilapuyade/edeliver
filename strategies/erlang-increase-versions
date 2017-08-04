@@ -47,17 +47,15 @@ run() {
       sed -E -e "s/(\{[[:space:]]*release[[:space:]]*,[[:space:]]*\{[[:space:]]*'[^']+'[[:space:]]*,[[:space:]]*)\"${_appVersion}\"/\1\"${_newVersion}\"/g" -i "" ${_relxFile}
     fi
   done
-  for _rebarFile in $(find  . -name rebar.config); do
-    local _appVersion=$(grep -Eo "\\s*\\{release,[[:space:]]*\\{fix_poller\\s*,\\s*\"[^\"]+\"\\s*\\}" rebar.config | grep -Eo "\"[^\"]+\"")
-    if [[ -n "$_appVersion" ]]; then
-      _appVersion=${_appVersion%\"*}
-      _appVersion=${_appVersion#*\"}
-      _newVersion=$(increase_version ${_appVersion} $INCREASE_VERSION_TYPE)
-      _newReleaseVersion=$_newVersion
-      echo "${_rebarFile}: ${bldylw}${_appVersion} -> ${_newVersion}${txtrst}"
-      sed -E -e "s/${_appVersion}/${_newVersion}/g" -i "" ${_rebarFile} 
-    fi
-  done 
+  local _appVersion=$(grep -Eo "\\s*\\{release,[[:space:]]*\\{fix_poller\\s*,\\s*\"[^\"]+\"\\s*\\}" ./rebar.config | grep -Eo "\"[^\"]+\"")
+  if [[ -n "$_appVersion" ]]; then
+    _appVersion=${_appVersion%\"*}
+    _appVersion=${_appVersion#*\"}
+    _newVersion=$(increase_version ${_appVersion} $INCREASE_VERSION_TYPE)
+    _newReleaseVersion=$_newVersion
+    echo "./rebar.config: ${bldylw}${_appVersion} -> ${_newVersion}${txtrst}"
+    sed -E -e "s/${_appVersion}/${_newVersion}/g" -i "" ./rebar.config 
+  fi
   if [[ -n "$_newReleaseVersion" ]]; then
     hint_message "\nNew release version is: ${bldylw}${_newReleaseVersion}${txtrst}"
     hint_message "Don't forget to tag the current revision using:\n\ngit tag ${_newReleaseVersion} && git push --tags"
