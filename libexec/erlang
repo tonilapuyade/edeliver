@@ -11,15 +11,6 @@ then
   RELEASE_STORE="$LOCAL_RELEASE_STORE"
 fi
 
-
-
-if [ -z "$REBAR_CONFIG" ]
-then
-  REBAR_OPTIONS=""
-else
-  REBAR_OPTIONS="-C $REBAR_CONFIG"
-fi
-
 REBAR_CMD=${REBAR_CMD:="./rebar3 $REBAR_OPTIONS"}
 MIX_CMD=${MIX_CMD:="mix"}
 RELX_CMD=${RELX_CMD:="./relx"}
@@ -238,7 +229,7 @@ erlang_generate_release() {
     cd $DELIVER_TO
     if [ \"$RELEASE_CMD\" = \"rebar\" ]; then
       echo \"using rebar to generate release\"
-      $REBAR_CMD $RELEASE_CMD_OPTIONS release
+      $REBAR_CMD as prod release
     elif [ \"$RELEASE_CMD\" = \"relx\" ]; then
       echo \"using relx to generate release\"
       $RELX_CMD release
